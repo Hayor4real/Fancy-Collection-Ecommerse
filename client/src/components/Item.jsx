@@ -57,11 +57,38 @@ const Item = ({ item, width }) => {
                 backgroundColor={shades.neutral[100]}
                 borderRadius="3px"
               >
-             </Box>
+                <IconButton onClick={() => setCount(Math.max(count - 1, 1))}>
+                <RemoveIcon />
+              </IconButton>
+              <Typography color={shades.primary[300]}>{count}</Typography>
+              <IconButton onClick={() => setCount(count + 1)}>
+                <AddIcon />
+              </IconButton>
             </Box>
-           </Box>
+            <Button
+              onClick={() => {
+                dispatch(addToCart({ item: { ...item, count } }));
+              }}
+              sx={{ backgroundColor: shades.primary[300], color: "white" }}
+            >
+              Add to Cart
+            </Button>
           </Box>
-        </Box> 
-    )
-};    
+        </Box>
+      </Box>
+
+      <Box mt="3px">
+        <Typography variant="subtitle2" color={neutral.dark}>
+          {category
+            .replace(/([A-Z])/g, " $1")
+            .replace(/^./, (str) => str.toUpperCase())}
+        </Typography>
+        <Typography>{name}</Typography>
+        <Typography fontWeight="bold">${price}</Typography>
+      </Box>
+    </Box>
+  );
+};
+
+export default Item;
     
