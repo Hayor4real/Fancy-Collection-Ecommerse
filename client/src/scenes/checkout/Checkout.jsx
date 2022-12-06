@@ -32,18 +32,9 @@ const Checkout = () => {
     actions.setTouched({});
   };
 
-  async function makePayment(values) {
-    const stripe = await stripePromise;
-    const requestBody = {
-      userName: [values.firstName, values.lastName].join(" "),
-      email: values.email,
-      products: cart.map(({ id, count }) => ({
-        id,
-        count,
-      })),
-    };
 
-    const response = await fetch("http://localhost:2000/api/orders", {
+
+    const response = await fetch("http://localhost:1337/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
