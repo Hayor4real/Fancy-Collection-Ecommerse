@@ -1,8 +1,4 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+
 
 
 const Checkout = () => {
