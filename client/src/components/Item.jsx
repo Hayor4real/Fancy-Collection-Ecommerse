@@ -38,7 +38,7 @@ const Item = ({ item, width }) => {
             alt={item.name}
             width="300px"
             height="400px"
-            src={`http://localhost:2000${url}`}
+            src={`http://localhost:1337${url}`}
             onClick={() => navigate(`/item/${item.id}`)}
             style={{ cursor: "pointer" }}
           />
@@ -61,7 +61,7 @@ const Item = ({ item, width }) => {
                 <RemoveIcon />
               </IconButton>
               <Typography color={shades.primary[300]}>{count}</Typography>
-              <IconButton onClick={() => setCount(count + 1)}>
+              <IconButton onClick={() => setCount(count + 1)}>  
                 <AddIcon />
               </IconButton>
             </Box>
