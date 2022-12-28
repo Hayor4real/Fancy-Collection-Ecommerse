@@ -9,31 +9,31 @@ import { shades } from "../../theme";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
-    "pk_test_51MCLnZKXu1yxwedUK45Q25TputOByBQaJrRsBqUJLLl9cwAieWinHsXjj6vzyRgM35Ch7eqnc9CzdgMpIfLwrcLx00mq4dR4vp"
+  "pk_test_51MCLnZKXu1yxwedUK45Q25TputOByBQaJrRsBqUJLLl9cwAieWinHsXjj6vzyRgM35Ch7eqnc9CzdgMpIfLwrcLx00mq4dR4vp"
 );
 
 const Checkout = () => {
-    const [activeStep, setActiveStep] = useState(0);
-    const cart = useSelector((state) => state.cart.cart);
-    const isFirstStep = activeStep === 0;
-    const isSecondStep = activeStep === 1;
+  const [activeStep, setActiveStep] = useState(0);
+  const cart = useSelector((state) => state.cart.cart);
+  const isFirstStep = activeStep === 0;
+  const isSecondStep = activeStep === 1;
 
-const handleFormSubmit = async (values, actions) => {
+  const handleFormSubmit = async (values, actions) => {
     setActiveStep(activeStep + 1);
     // this copies the billing address onto shipping address
     if (isFirstStep && values.shippingAddress.isSameAddress) {
-        actions.setFieldValue("shippingAddress", {
-          ...values.billingAddress,
-          isSameAddress: true,
-        });
-      }
-      if (isSecondStep) {
-        makePayment(values);
-      }
-      actions.setTouched({});
-}
+      actions.setFieldValue("shippingAddress", {
+        ...values.billingAddress,
+        isSameAddress: true,
+      });
+    }
+    if (isSecondStep) {
+      makePayment(values);
+    }
+    actions.setTouched({});
+  };
 
-async function makePayment(values) {
+  async function makePayment(values) {
     const stripe = await stripePromise;
     const requestBody = {
       userName: [values.firstName, values.lastName].join(" "),
@@ -44,18 +44,21 @@ async function makePayment(values) {
       })),
     };
 
-    const response = await fetch("http://localhost:1337/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestBody),
-    });
+    const response = await fetch(
+      "https://fancycollectionecommerse-backend.onrender.com/api/orders",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      }
+    );
     const session = await response.json();
     await stripe.redirectToCheckout({
       sessionId: session.id,
     });
   }
 
-return (
+  return (
     <Box width="80%" m="100px auto">
       <Stepper activeStep={activeStep} sx={{ m: "20px 0" }}>
         <Step>
@@ -221,4 +224,3 @@ const checkoutSchema = [
 ];
 
 export default Checkout;
-
